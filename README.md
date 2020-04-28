@@ -1,7 +1,7 @@
-# GEOS GCM Fixture
+# RadApp Fixture
 [![CircleCI](https://circleci.com/gh/GEOS-ESM/GEOSgcm.svg?style=svg)](https://circleci.com/gh/GEOS-ESM/GEOSgcm)
 
-## How to build GEOS GCM
+## How to build RadApp
 
 ### Preliminary Steps
 
@@ -45,7 +45,7 @@ which obtains the latest `git`, `CMake`, and `manage_externals` modules.
 #### Obtain the Model
 
 ```
-git clone git@github.com:GEOS-ESM/GEOSgcm.git
+git clone git@github.com:GEOS-ESM/RadApp.git
 ```
 
 ---
@@ -136,10 +136,6 @@ and CMake will install there.
 make -j6 install
 ```
 
-### Run the AGCM
+### Running RadApp
 
-Once the model has built successfully, you will have an `install/` directory in your checkout. To run `gcm_setup` go to the `install/bin/` directory and run it there:
-```
-cd install/bin
-./gcm_setup
-```
+Once the model has built successfully, you will have an `install/` directory in your checkout. 
