@@ -291,6 +291,7 @@ contains
    character(len=ESMF_MAXSTR),pointer  :: GCNames(:)
    integer                             :: I
    integer                             :: IM, JM, LM
+   integer                             :: iphase
 
 !  Get my name and set-up traceback handle
 !  ---------------------------------------
@@ -317,8 +318,11 @@ contains
    VERIFY_(STATUS)
 
    I=CHEM
-
-   call ESMF_GridCompRun (GCS(I), importState=GIM(I), exportState=GEX(I), clock=CLOCK, userRC=STATUS ); VERIFY_(STATUS)
+  
+   iphase = 1
+   call ESMF_GridCompRun (GCS(I), importState=GIM(I), exportState=GEX(I), clock=CLOCK, phase=iphase, userRC=STATUS ); VERIFY_(STATUS)
+   iphase = 2
+   call ESMF_GridCompRun (GCS(I), importState=GIM(I), exportState=GEX(I), clock=CLOCK, phase=iphase, userRC=STATUS ); VERIFY_(STATUS)
    call MAPL_GenericRunCouplers (STATE, I,        CLOCK,    RC=STATUS ); VERIFY_(STATUS)
 
    I=RADENV
