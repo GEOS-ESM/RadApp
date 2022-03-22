@@ -6,3 +6,6 @@
 !/GEOS_Pert
 !/arpack
 !/pnagpack
+!/GMAO_stoch
+!/GMAO_transf
+!/LANL_Shared
