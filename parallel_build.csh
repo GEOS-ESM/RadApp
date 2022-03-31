@@ -46,7 +46,7 @@ else
       mepo init
       mepo clone
       if ( "$DEVELOP" == "TRUE" ) then
-         echo "Checking out development branches of GEOSgcm_GridComp, and GMAO_Shared"
+         echo "Checking out development branches of GEOSgcm_GridComp and GMAO_Shared"
          mepo develop GEOSgcm_GridComp GMAO_Shared
       endif
    endif

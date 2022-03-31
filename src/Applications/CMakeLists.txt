@@ -1,4 +1,2 @@
-esma_add_subdirectories(
-  RadApp
-  )
+esma_add_subdirectories(RadApp)
 
