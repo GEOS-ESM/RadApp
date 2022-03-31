@@ -367,7 +367,7 @@ contains
    real, pointer                       :: aeroInternal(:,:,:) => null()
    real                                :: tempor, plt
    integer, parameter :: numAEROs = 15
-   character(len=ESMF_MAXSTR) :: aeroNames(numAEROs) = [character(len=8) :: &
+   character(len=ESMF_MAXSTR) :: aeroNames(numAEROs) = [character(len=ESMF_MAXSTR) :: &
                                                          "du001", "du002", "du003", "du004", &
                                                          "du005", "ss001", "ss002", "ss003", &
                                                          "ss004", "ss005", "SO4"  , "BCphobic", &
