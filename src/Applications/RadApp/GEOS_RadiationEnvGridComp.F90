@@ -16,8 +16,7 @@
 ! !USES:
 !
    USE ESMF
-   USE MAPL_Mod
-   USE MAPL_CFIOMOD
+   USE MAPL
 
    IMPLICIT NONE
    PRIVATE
@@ -28,7 +27,7 @@
 
   real, parameter :: P00          = MAPL_P00
 
-! !DESCRIPTION: This is a Cinderella gridded component (GC) 
+! !DESCRIPTION: This is a Cinderella gridded component (GC)
 !EOP
 
 contains
@@ -60,7 +59,7 @@ contains
 
     type (ESMF_Config          )            :: CF
     integer                    :: i
-    ! variables for alternative radiative coupling 
+    ! variables for alternative radiative coupling
     ! option 1
     integer, parameter         :: numRadCouple1_import = 4
     integer, parameter         :: numRadCouple1_export = 4
@@ -215,7 +214,7 @@ contains
    type(ESMF_State), intent(inout) :: EXPORT     ! Export State
    integer, intent(out)            :: rc         ! Error return code:
                                                  !  0 - all is well
-                                                 !  1 - 
+                                                 !  1 -
 
 ! !DESCRIPTION: This is a simple ESMF wrapper.
 !
@@ -226,7 +225,7 @@ contains
 !EOP
 !-------------------------------------------------------------------------
 
-   type(ESMF_Config)           :: CF          ! Universal Config 
+   type(ESMF_Config)           :: CF          ! Universal Config
    character(len=ESMF_MAXSTR)  :: Iam
    integer                     :: status
    character(len=ESMF_MAXSTR)  :: comp_name
@@ -329,7 +328,7 @@ contains
    type(ESMF_State), intent(inout) :: EXPORT     ! Export State
    integer, intent(out) ::  rc                   ! Error return code:
                                                  !  0 - all is well
-                                                 !  1 - 
+                                                 !  1 -
 
 ! !DESCRIPTION: This is a simple ESMF wrapper.
 !
@@ -368,10 +367,11 @@ contains
    real, pointer                       :: aeroInternal(:,:,:) => null()
    real                                :: tempor, plt
    integer, parameter :: numAEROs = 15
-   character(len=ESMF_MAXSTR) :: aeroNames(numAEROs) = (/"du001", "du002", "du003", "du004", &
-                                                          "du005", "ss001", "ss002", "ss003", &
-                                                          "ss004", "ss005", "SO4"  , "BCphobic", &
-                                                          "BCphilic", "OCphobic", "OCphilic"/)
+   character(len=ESMF_MAXSTR) :: aeroNames(numAEROs) = [ character(len=ESMF_MAXSTR) :: &
+                                                         "du001", "du002", "du003", "du004", &
+                                                         "du005", "ss001", "ss002", "ss003", &
+                                                         "ss004", "ss005", "SO4", "BCphobic", &
+                                                         "BCphilic", "OCphobic", "OCphilic"]
    character(len=ESMF_MAXSTR) :: RadCouple
    ! pointers for alternative radiation coupling
    real, pointer                       ::   QV(:,:,:) => null()

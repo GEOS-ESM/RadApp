@@ -85,7 +85,7 @@ contains
 
 !   Register children
 !   -----------------
-    RADENV = MAPL_AddChild(GC, NAME='RADENV', SS=RadiationEnvSetServices, RC=STATUS) 
+    RADENV = MAPL_AddChild(GC, NAME='RADENV', SS=RadiationEnvSetServices, RC=STATUS)
     VERIFY_(STATUS)
     RAD = MAPL_AddChild(GC, NAME='RADIATION', SS=RadiationSetServices, RC=STATUS)
     VERIFY_(STATUS)
@@ -102,7 +102,7 @@ contains
 !   Imports of Radiation calculated in RadEnv not to come thru ExtData
 !   ------------------------------------------------------------------
     call MAPL_AddConnectivity ( GC,                               &
-        SHORT_NAME  = (/'PREF','RI','RL'/),                       &
+        SHORT_NAME  = [character(len=4):: 'PREF','RI','RL'],      &
         DST_ID      =  RAD,                                       &
         SRC_ID      =  RADENV,                                    &
                                                         RC=STATUS  )
@@ -117,13 +117,13 @@ contains
        ASSERT_(trim(ratsName) == "PCHEM")
        aeroProvider = CHEM
        call MAPL_TerminateImport(GC, &
-            SHORT_NAME = (/'FRLAND','FRLANDICE','FROCEAN','FRACI'/),  &
+            SHORT_NAME = [character(len=9):: 'FRLAND','FRLANDICE','FROCEAN','FRACI'],  &
             CHILD = aeroProvider, &
             RC = STATUS)
     else
        ASSERT_(.false.)
     end if
-        
+
 
      call MAPL_AddConnectivity ( GC,                               &
          SHORT_NAME  = (/'AERO'/),                                 &
@@ -193,7 +193,7 @@ contains
    type(ESMF_State), intent(inout) :: EXPORT     ! Export State
    integer, intent(out)            :: rc         ! Error return code:
                                                  !  0 - all is well
-                                                 !  1 - 
+                                                 !  1 -
 
 ! !DESCRIPTION: This is a simple ESMF wrapper.
 !
@@ -205,7 +205,7 @@ contains
 !-------------------------------------------------------------------------
 
 
-   type(ESMF_Config)           :: CF          ! Universal Config 
+   type(ESMF_Config)           :: CF          ! Universal Config
    character(len=ESMF_MAXSTR)  :: Iam
    integer                     :: status
    character(len=ESMF_MAXSTR)  :: comp_name
@@ -265,7 +265,7 @@ contains
    type(ESMF_State), intent(inout) :: EXPORT     ! Export State
    integer, intent(out) ::  rc                   ! Error return code:
                                                  !  0 - all is well
-                                                 !  1 - 
+                                                 !  1 -
 
 ! !DESCRIPTION: This is a simple ESMF wrapper.
 !
@@ -318,7 +318,7 @@ contains
    VERIFY_(STATUS)
 
    I=CHEM
-  
+
    iphase = 1
    call ESMF_GridCompRun (GCS(I), importState=GIM(I), exportState=GEX(I), clock=CLOCK, phase=iphase, userRC=STATUS ); VERIFY_(STATUS)
    iphase = 2

@@ -18,7 +18,7 @@ Program RadApp_Main
    type (MAPL_CapOptions) :: cap_options
    integer :: status
 
-   cli = MAPL_FlapCLI(description = 'GEOS RADAPP', &
+   cli = MAPL_FlapCLI(description = 'GEOS RadApp', &
                                      authors     = 'GMAO')
    cap_options = MAPL_CapOptions(cli)
    cap = MAPL_Cap('RootRad', ROOT_SetServices, cap_options = cap_options)
@@ -26,4 +26,4 @@ Program RadApp_Main
    call cap%run(_RC)
 
 end program RadApp_Main
-   
+
