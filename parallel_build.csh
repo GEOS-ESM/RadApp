@@ -21,6 +21,7 @@ setenv ESMADIR $srcdir
 set origargv = "$argv"
 
 setenv DEVELOP FALSE
+
 while ($#argv)
    if ("$1" == "-develop") then
       setenv DEVELOP TRUE
@@ -29,9 +30,14 @@ while ($#argv)
    shift
 end
 
-if (! -d ${ESMADIR}/@env) then
+if (-d ${ESMADIR}/@env || -d ${ESMADIR}/env@ || -d ${ESMADIR}/env) then
+   if ( "$DEVELOP" == "TRUE" ) then
+      echo "Checking out development branches of GEOSgcm_GridComp and GMAO_Shared"
+      mepo develop GEOSgcm_GridComp GMAO_Shared
+   endif
+else
    if ($?PBS_JOBID || $?SLURM_JOBID) then
-      echo " mepo must be run!"
+      echo " mepo clone must be run!"
       echo " This requires internet access but you are on a compute node"
       echo " Please run from a head node"
       exit 1
@@ -40,8 +46,8 @@ if (! -d ${ESMADIR}/@env) then
       mepo init
       mepo clone
       if ( "$DEVELOP" == "TRUE" ) then
-         echo "Checking out development branches of GEOSgcm_GridComp and GEOSgcm_App"
-         mepo develop GEOSgcm_GridComp GEOSgcm_App
+         echo "Checking out development branches of GEOSgcm_GridComp, and GMAO_Shared"
+         mepo develop GEOSgcm_GridComp GMAO_Shared
       endif
    endif
 endif
@@ -51,5 +57,9 @@ set argv = "$origargv"
 
 if ( -d ${ESMADIR}/@env ) then
    ${ESMADIR}/@env/build.csh -esmadir $ESMADIR $argv
+else if ( -d ${ESMADIR}/env@ ) then
+   ${ESMADIR}/env@/build.csh -esmadir $ESMADIR $argv
+else if ( -d ${ESMADIR}/env ) then
+   ${ESMADIR}/env/build.csh -esmadir $ESMADIR $argv
 endif
 
