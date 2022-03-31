@@ -17,3 +17,5 @@ workflows:
                 - ifort
           repo: RadApp
           checkout_fixture: true
+          mepodevelop: false # Until RadApp is up-to-date with GEOSgcm, turn off mepodevelop
+          develop_repos: GEOSgcm_GridComp GMAO_Shared
