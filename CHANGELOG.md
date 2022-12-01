@@ -6,6 +6,9 @@
 ### Removed
 ### Fixed
 ### Changed
+
+- Move to use GitHub Actions for label enforcement
+
 ### Deprecated
 
 ## [1.0.0] - 2022-MM-DD
