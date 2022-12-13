@@ -8,6 +8,7 @@
 ### Changed
 
 - Move to use GitHub Actions for label enforcement
+- Updated `components.yaml` to be consistent with GEOSgcm
 
 ### Deprecated
 
