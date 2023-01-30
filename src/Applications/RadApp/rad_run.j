@@ -156,6 +156,9 @@ cd $SCRDIR
                              cp -f  $HOMDIR/*.yaml .
                              cp     $GEOSBIN/bundleParser.py .
 
+setenv  DATDIR $SCRDIR/DataFiles
+/bin/mkdir -p $DATDIR
+
 set END_DATE  = `grep '^\s*END_DATE:'     CAP.rc | cut -d: -f2`
 set NUM_SGMT  = `grep '^\s*NUM_SGMT:'     CAP.rc | cut -d: -f2`
 set FSEGMENT  = `grep '^\s*FCST_SEGMENT:' CAP.rc | cut -d: -f2`
