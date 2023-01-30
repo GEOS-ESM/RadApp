@@ -1,0 +1,52 @@
+#######################################################################
+#                 Create History List for Output
+#######################################################################
+
+VERSION: 1
+EXPID:  @EXPID
+EXPDSC: @EXPDSC
+EXPSRC: @EXPSRC
+
+
+COLLECTIONS: 'inst1_2d_rae_Nx'
+             ::
+
+##################################################
+# The GRID_LABELS section must be after the main #
+#  list of COLLECTIONS for scripting purposes.   #
+##################################################
+
+GRID_LABELS: PC@HIST_IMx@HIST_JM-DC
+::
+
+PC@HIST_IMx@HIST_JM-DC.GRID_TYPE: LatLon
+PC@HIST_IMx@HIST_JM-DC.IM_WORLD: @HIST_IM
+PC@HIST_IMx@HIST_JM-DC.JM_WORLD: @HIST_JM
+PC@HIST_IMx@HIST_JM-DC.POLE: PC
+PC@HIST_IMx@HIST_JM-DC.DATELINE: DC
+PC@HIST_IMx@HIST_JM-DC.LM: @AGCM_LM
+
+  inst1_2d_rae_Nx.format:    'CFIO',
+  inst1_2d_rae_Nx.descr:     '2d,1-Hourly,Instantaneous,Single-Level,RadApp Exports',
+  inst1_2d_rae_Nx.nbits:     10,
+  inst1_2d_rae_Nx.template:  '%y4%m2%d2_%h2%n2z.nc4',
+  inst1_2d_rae_Nx.mode:      'instantaneous',
+  inst1_2d_rae_Nx.grid_label:        PC@HIST_IMx@HIST_JM-DC ,
+  inst1_2d_rae_Nx.regrid_method:    'BILINEAR',
+  inst1_2d_rae_Nx.frequency: 010000,
+  inst1_2d_rae_Nx.duration:  010000,
+  inst1_2d_rae_Nx.ref_time:  210000,
+  inst1_2d_rae_Nx.fields:    'OSR'     , 'SOLAR'   ,
+                             'OSRCLR'  , 'SOLAR'   ,
+                             'SLRTP'   , 'SOLAR'   ,
+                             'MCOSZ'   , 'SOLAR'   ,
+                             'OLR'     , 'IRRAD'   ,
+                             'OLC'     , 'IRRAD'   ,
+                             'CLDTT'   , 'SOLAR'   ,
+                             'ALBEDO'  , 'SOLAR'   ,
+                             'ALBVR'   , 'SOLAR'   ,
+                             'ALBVF'   , 'SOLAR'   ,
+                             'ALBNR'   , 'SOLAR'   ,
+                             'ALBNF'   , 'SOLAR'   ,
+                             ::
+
