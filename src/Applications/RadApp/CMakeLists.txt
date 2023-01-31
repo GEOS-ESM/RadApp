@@ -29,12 +29,6 @@ install (
    DESTINATION etc
    )
 
-if(INSTALL_SOURCE_TARFILE)
-  set(CFG_INSTALL_SOURCE_TARFILE TRUE)
-else()
-  set(CFG_INSTALL_SOURCE_TARFILE FALSE)
-endif()
-
 set (setup_scripts
    rad_setup
    )
