@@ -11,7 +11,7 @@
 !
 #include "MAPL_Generic.h"
 
-MODULE GEOS_RadiationEnvGridCompMod
+module GEOS_RadiationEnvGridCompMod
 
 !
 ! !USES:
@@ -28,7 +28,7 @@ MODULE GEOS_RadiationEnvGridCompMod
 
    real, parameter :: P00 = MAPL_P00
 
-! !DESCRIPTION: This is a Cinderella gridded component (GC)
+! !DESCRIPTION: This is a Cinderella gridded component (GC).
 
 !EOP
 
@@ -37,7 +37,7 @@ contains
 !=============================================================================
 !BOP
 
-! !IROUTINE: SetServices -- Sets ESMF services for this component
+! !IROUTINE: SetServices -- Sets ESMF services for this component.
 
 ! !INTERFACE:
 
@@ -45,47 +45,36 @@ contains
 
 ! !ARGUMENTS:
 
-      type(ESMF_GridComp), intent(INOUT) :: GC  ! gridded component
-      integer,             intent(  OUT) :: RC  ! return code
+      type (ESMF_GridComp), intent(INOUT) :: GC  ! gridded component
+      integer, optional,    intent(  OUT) :: RC  ! return code
 
-! !DESCRIPTION: The SetServices registers the RadEnv component
+! !DESCRIPTION: The SetServices registers the RadEnv component.
 
 !EOP
 !=============================================================================
-!
-! ErrLog Variables
-
-      character(len=ESMF_MAXSTR) :: IAm
-      integer                    :: STATUS
-      character(len=ESMF_MAXSTR) :: COMP_NAME
 
       type (ESMF_Config)         :: CF
-      integer                    :: i
+      integer                    :: i, STATUS
 
       ! variables for alternative radiative coupling
       ! option 1
       integer, parameter         :: numRadCouple1_import = 4
       integer, parameter         :: numRadCouple1_export = 4
       character(len=ESMF_MAXSTR) :: RadCouple1_import(numRadCouple1_import) = &
-         (/"QLLS","QLCN","CLLS","CLCN"/)
+         ["QLLS","QLCN","CLLS","CLCN"]
       character(len=ESMF_MAXSTR) :: RadCouple1_export(numRadCouple1_export) = &
-         (/"QV  ","QL  ","QI  ","FCLD"/)
+         ["QV  ","QL","QI","FCLD"]
       character(len=ESMF_MAXSTR) :: RadCouple
 
 !=============================================================================
 
-! Get my name and set-up traceback handle
-! ---------------------------------------
-
-      Iam = 'SetServices'
-      call ESMF_GridCompGet (GC, NAME=COMP_NAME, CONFIG=CF, _RC)
-      Iam = trim(COMP_NAME) // "::" // Iam
+      call ESMF_GridCompGet (GC, CONFIG=CF, _RC)
 
 ! Set the Initialize, Run, Finalize entry points
 ! ----------------------------------------------
 
-      call MAPL_GridCompSetEntryPoint (GC, ESMF_METHOD_INITIALIZE, Initialize_, _RC)
-      call MAPL_GridCompSetEntryPoint (GC, ESMF_METHOD_RUN,        Run_,        _RC)
+      call MAPL_GridCompSetEntryPoint (GC, ESMF_METHOD_INITIALIZE, Initialize, _RC)
+      call MAPL_GridCompSetEntryPoint (GC, ESMF_METHOD_RUN,        Run,        _RC)
 
 ! Set the state variable specs.
 ! -----------------------------
@@ -179,19 +168,18 @@ contains
 ! --------------------
 
       call MAPL_GenericSetServices (GC, _RC)
-
-      RETURN_(ESMF_SUCCESS)
+      _RETURN(_SUCCESS)
 
    end subroutine SetServices
 
 !=============================================================================
 !BOP
 !
-! !IROUTINE:  Initialize_ --- Initialize RUT
+! !IROUTINE:  Initialize
 !
 ! !INTERFACE:
 !
-   subroutine Initialize_ (GC, IMPORT, EXPORT, CLOCK, RC)
+   subroutine Initialize (GC, IMPORT, EXPORT, CLOCK, RC)
 
 ! !USES:
 
@@ -206,9 +194,9 @@ contains
       type (ESMF_GridComp), intent(INOUT) :: GC      ! Grid Component
       type (ESMF_State),    intent(INOUT) :: IMPORT  ! Import State
       type (ESMF_State),    intent(INOUT) :: EXPORT  ! Export State
-      integer,              intent(  OUT) :: RC      ! Return code
+      integer, optional,    intent(  OUT) :: RC      ! Return code
 
-! !DESCRIPTION: This is a simple ESMF wrapper.
+! !DESCRIPTION: Initialize Radiation Environment GridComp.
 !
 ! !REVISION HISTORY:
 !
@@ -217,12 +205,8 @@ contains
 !EOP
 !=============================================================================
 
-      character(len=ESMF_MAXSTR) :: Iam
-      integer                    :: status
-      character(len=ESMF_MAXSTR) :: comp_name
-
-      type (MAPL_MetaComp), pointer           :: MAPL
-      integer                                 :: LM
+      type (MAPL_MetaComp), pointer :: MAPL
+      integer :: LM, STATUS
 
       real, pointer :: pref(:)
       real :: a72(73)
@@ -264,12 +248,6 @@ contains
 
 !=============================================================================
 
-! Get my name and set-up traceback handle
-! ---------------------------------------
-      Iam = "Initialize_"
-      call ESMF_GridCompGet (GC, name=comp_name, _RC)
-      Iam = trim(comp_name) // '::' // trim(Iam)
-
 ! Initialize MAPL Generic
 ! -----------------------
       call MAPL_GenericInitialize (GC, IMPORT, EXPORT, CLOCK, _RC)
@@ -287,35 +265,35 @@ contains
       call MAPL_GetPointer (EXPORT, PREF, 'PREF', ALLOC=.true., _RC)
       PREF = a72 + b72 * P00
 
-      RETURN_(ESMF_SUCCESS)
+      _RETURN(_SUCCESS)
 
-   end subroutine Initialize_
+   end subroutine Initialize
 
 !=============================================================================
 !BOP
 
-! !IROUTINE: Run_
+! !IROUTINE: Run
 
 ! !INTERFACE:
 
-   subroutine Run_ (GC, IMPORT, EXPORT, CLOCK, RC)
+   subroutine Run (GC, IMPORT, EXPORT, CLOCK, RC)
 
 ! !USES:
 
-     implicit NONE
+      implicit NONE
 
 ! !INPUT PARAMETERS:
 
-     type (ESMF_Clock),    intent(INOUT) :: CLOCK   ! The clock
+      type (ESMF_Clock),    intent(INOUT) :: CLOCK   ! The clock
 
 ! !OUTPUT PARAMETERS:
 
-     type (ESMF_GridComp), intent(INOUT) :: GC      ! Grid Component
-     type (ESMF_State),    intent(INOUT) :: IMPORT  ! Import State
-     type (ESMF_State),    intent(INOUT) :: EXPORT  ! Export State
-     integer,              intent(  OUt) :: RC      ! Return code
+      type (ESMF_GridComp), intent(INOUT) :: GC      ! Grid Component
+      type (ESMF_State),    intent(INOUT) :: IMPORT  ! Import State
+      type (ESMF_State),    intent(INOUT) :: EXPORT  ! Export State
+      integer, optional,    intent(  OUt) :: RC      ! Return code
 
-! !DESCRIPTION: This is a simple ESMF wrapper.
+! !DESCRIPTION: Run Radiation Environment GridComp.
 !
 ! !REVISION HISTORY:
 !
@@ -324,9 +302,7 @@ contains
 !EOP
 !=============================================================================
 
-      character(len=ESMF_MAXSTR)    :: Iam
       integer                       :: STATUS
-      character(len=ESMF_MAXSTR)    :: comp_name
 
       type (MAPL_MetaComp), pointer :: MAPL
       type (ESMF_Config)            :: CF
@@ -355,11 +331,7 @@ contains
 
 !=============================================================================
 
-!  Get my name and set-up traceback handle
-!  ---------------------------------------
-      Iam = "Run_"
-      call ESMF_GridCompGet (GC, name=comp_name, config=CF, _RC)
-      Iam = trim(comp_name) // '::' // trim(Iam)
+      call ESMF_GridCompGet (GC, config=CF, _RC)
 
 ! Get my MAPL_Generic state
 !--------------------------
@@ -405,9 +377,9 @@ contains
          !? now do some work on these
       end if
 
-      RETURN_(ESMF_SUCCESS)
+      _RETURN(_SUCCESS)
 
-   end subroutine Run_
+   end subroutine Run
 
 !=============================================================================
 
@@ -418,13 +390,13 @@ contains
       real, intent(in ) :: U(LM)       ! [m/s]
       real, intent(out) :: TEMPOR
 
-      integer :: levs925, l
+      integer :: levs925, L
 
       levs925 = max(1,count(PREF < 92500.))
 
       TEMPOR = 0.
-      do l = levs925, LM
-        if (U(l) > 4.) TEMPOR = 1.
+      do L = levs925, LM
+        if (U(L) > 4.) TEMPOR = 1.
       end do
 
    end subroutine SET_TEMPOR
