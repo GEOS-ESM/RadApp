@@ -1,5 +1,10 @@
 version: 2.1
 
+# Anchors to prevent forgetting to update a version
+os_version: &os_version ubuntu20
+baselibs_version: &baselibs_version v7.7.0
+bcs_version: &bcs_version v10.23.0
+
 orbs:
   ci: geos-esm/circleci-tools@1
 
@@ -12,9 +17,8 @@ workflows:
             - docker-hub-creds
           matrix:
             parameters:
-              compiler:
-                - gfortran
-                - ifort
+              compiler: [ifort, gfortran]
+          baselibs_version: *baselibs_version
           repo: RadApp
           mepodevelop: false # Until RadApp is up-to-date with GEOSgcm, turn off mepodevelop
           develop_repos: GEOSgcm_GridComp GMAO_Shared
